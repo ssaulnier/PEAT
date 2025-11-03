@@ -12,15 +12,21 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
   - react, react-dom: UI framework
 
 ## Recent Changes
-- **2024-11-03**: WCAG 2.0 compliant flash detection implementation
+- **2024-11-03**: WCAG 2.1 complete compliance implementation
+  - ✅ **General Flash Detection**: Relative luminance change ≥10% with dark image threshold <0.80
+  - ✅ **Red Flash Detection**: Saturated red color flash detection (dangerous even with low luminance change)
+  - ✅ **Spatial Zone Analysis**: 341×256 pixel zones for accurate flash area measurement (WCAG 2.1 requirement)
+  - ✅ **Static Pattern Detection**: High-contrast pattern identification to prevent seizures from static images
+  - Enhanced UI to display separate counts for general flashes vs red flashes
+  - Detailed interval reporting showing both flash types in dangerous zones
+  - Compliance messaging updated to reflect WCAG 2.1 standards (not 2.0)
+  - Pattern severity levels (high/medium) with visual indicators
+  - Frame-by-frame color analysis (RGB + saturation) in addition to luminance
+  - Zone-based flash detection to meet international medical standards (PMC article compliance)
   - Fixed FFmpeg initialization with toBlobURL for proper worker loading
-  - Implemented WCAG 2.0 compliant flash detection (relative luminance change >10% in 0.5s)
-  - Added sliding 1-second window analysis to catch boundary-crossing violations
   - Comprehensive error handling with user-friendly messages
   - Video-only upload restriction (audio files rejected with clear message)
   - Validation guards for empty frames, invalid duration, corrupted files
-  - Dangerous interval detection with precise timestamps
-  - Conformity badges and messages based on WCAG 2.0 standards
 
 - **2024-11-03**: Real video analysis with FFmpeg integration
   - Created VideoAnalyzer.js module for real video processing
