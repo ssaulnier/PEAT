@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import AnalysisReport from './AnalysisReport';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStatus, setProcessingStatus] = useState('');
+  const [showReport, setShowReport] = useState(false);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -12,6 +14,7 @@ function App() {
       setSelectedFile(file);
       setIsProcessing(false);
       setProcessingStatus('');
+      setShowReport(false);
     }
   };
 
@@ -23,6 +26,7 @@ function App() {
       setSelectedFile(file);
       setIsProcessing(false);
       setProcessingStatus('');
+      setShowReport(false);
     }
   };
 
@@ -38,10 +42,12 @@ function App() {
   const handleProcessing = async () => {
     setIsProcessing(true);
     setProcessingStatus('🔄 Analyse en cours...');
+    setShowReport(false);
     
     setTimeout(() => {
-      setProcessingStatus('✅ Analyse terminée ! Aucun risque photosensible détecté.');
+      setProcessingStatus('✅ Analyse terminée !');
       setIsProcessing(false);
+      setShowReport(true);
     }, 2000);
   };
 
@@ -132,6 +138,12 @@ function App() {
           )}
         </div>
       </section>
+
+      {showReport && selectedFile && (
+        <section className="report-section-container">
+          <AnalysisReport fileName={selectedFile.name} />
+        </section>
+      )}
 
       <section className="features-section">
         <h2 className="section-title">Fonctionnalités principales</h2>

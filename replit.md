@@ -12,6 +12,15 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
   - react, react-dom: UI framework
 
 ## Recent Changes
+- **2024-11-03**: Detailed analysis report with luminance graph
+  - Created comprehensive analysis report component
+  - Integrated Recharts for luminance evolution graph (similar to reference design)
+  - Added statistics cards (avg, max, min luminance, duration)
+  - Implemented risk detection section with visual indicators
+  - Added conclusion badge with safety status
+  - Simulated luminance data generation with realistic variations
+  - Responsive design for report layout
+
 - **2024-11-03**: French translation and processing functionality
   - Entire app translated to French
   - Updated baseline: "Photosensitive Epilepsy Analysis Tool"
