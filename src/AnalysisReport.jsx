@@ -1,36 +1,15 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-function AnalysisReport({ fileName }) {
-  const generateLuminanceData = () => {
-    const data = [];
-    const timestamps = [];
-    
-    for (let i = 0; i < 100; i++) {
-      const time = (i * 1.1).toFixed(2);
-      timestamps.push(time);
-    }
-    
-    for (let i = 0; i < timestamps.length; i++) {
-      const baseValue = 130;
-      const variation = Math.sin(i / 5) * 30 + Math.random() * 20;
-      data.push({
-        temps: timestamps[i],
-        luminance: Math.max(0, Math.min(260, baseValue + variation))
-      });
-    }
-    
-    return data;
-  };
-
-  const luminanceData = generateLuminanceData();
-  
-  const maxLuminance = Math.max(...luminanceData.map(d => d.luminance));
-  const minLuminance = Math.min(...luminanceData.map(d => d.luminance));
-  const avgLuminance = (luminanceData.reduce((sum, d) => sum + d.luminance, 0) / luminanceData.length).toFixed(1);
-  
-  const flashCount = 2;
-  const duration = parseFloat(luminanceData[luminanceData.length - 1].temps);
-  const maxFlashRate = (flashCount / duration).toFixed(2);
+function AnalysisReport({ fileName, analysisData }) {
+  const luminanceData = analysisData.luminanceData;
+  const maxLuminance = parseFloat(analysisData.maxLuminance);
+  const minLuminance = parseFloat(analysisData.minLuminance);
+  const avgLuminance = analysisData.avgLuminance;
+  const flashCount = analysisData.flashCount;
+  const duration = parseFloat(analysisData.duration);
+  const maxFlashesPerSecond = analysisData.maxFlashesPerSecond;
+  const dangerousSeconds = analysisData.dangerousSeconds;
+  const isSafe = analysisData.isSafe;
 
   return (
     <div className="analysis-report">
@@ -100,36 +79,68 @@ function AnalysisReport({ fileName }) {
       <div className="report-section">
         <h3>Détection des risques</h3>
         <div className="risk-analysis">
-          <div className="risk-item safe">
-            <span className="risk-icon">✅</span>
+          <div className={`risk-item ${isSafe ? 'safe' : 'danger'}`}>
+            <span className="risk-icon">{isSafe ? '✅' : '⚠️'}</span>
             <div className="risk-content">
-              <strong>Fréquence de clignotement</strong>
-              <p>Aucun clignotement dangereux détecté ({flashCount} flashs, max {maxFlashRate} Hz - seuil: 3 Hz)</p>
+              <strong>Flashs généraux (General Flashes)</strong>
+              <p>
+                {flashCount} flashs généraux détectés sur toute la vidéo
+              </p>
+              <p>
+                Fréquence maximale: {maxFlashesPerSecond} flashs/seconde
+                {isSafe 
+                  ? ' - ✅ Conforme (seuil: max 3 flashs/seconde)' 
+                  : ' - ⚠️ NON CONFORME (seuil: max 3 flashs/seconde)'}
+              </p>
+              {dangerousSeconds.length > 0 && (
+                <div style={{ marginTop: '0.75rem', padding: '0.75rem', background: '#fee2e2', borderRadius: '8px', border: '1px solid #ef4444' }}>
+                  <p style={{ color: '#991b1b', fontWeight: 'bold', margin: 0 }}>
+                    ⚠️ ZONES À RISQUE ÉLEVÉ DÉTECTÉES :
+                  </p>
+                  <p style={{ color: '#991b1b', margin: '0.5rem 0 0 0', fontSize: '0.9rem' }}>
+                    {dangerousSeconds.map(interval => 
+                      `Intervalle ${interval.start}s-${interval.end}s (${interval.count} flashs en 1 seconde)`
+                    ).join(' • ')}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
-          <div className="risk-item safe">
-            <span className="risk-icon">✅</span>
+          <div className={`risk-item ${flashCount < 10 ? 'safe' : 'warning'}`}>
+            <span className="risk-icon">{flashCount < 10 ? '✅' : '⚠️'}</span>
             <div className="risk-content">
               <strong>Changements de luminance</strong>
-              <p>Les variations de luminance restent dans les limites acceptables</p>
+              <p>
+                {flashCount < 10 
+                  ? 'Les variations de luminance restent dans les limites acceptables' 
+                  : `${flashCount} changements brusques de luminance détectés (>10% de changement relatif en 0.5s)`}
+              </p>
+              <p style={{ fontSize: '0.85rem', marginTop: '0.25rem', color: '#666' }}>
+                Seuil WCAG 2.0: Variation de luminance relative {'>'} 10% en moins de 0.5 seconde
+              </p>
             </div>
           </div>
           <div className="risk-item safe">
-            <span className="risk-icon">✅</span>
+            <span className="risk-icon">ℹ️</span>
             <div className="risk-content">
-              <strong>Motifs répétitifs</strong>
-              <p>Aucun motif géométrique potentiellement dangereux détecté</p>
+              <strong>Détails de l'analyse</strong>
+              <p>Durée: {duration}s | Frames analysées: {luminanceData.length} | Taux: ~{(luminanceData.length / parseFloat(duration)).toFixed(1)} fps</p>
+              <p style={{ fontSize: '0.9rem', marginTop: '0.5rem', color: '#666' }}>
+                Basé sur les directives WCAG 2.0 pour la prévention des crises photosensibles
+              </p>
             </div>
           </div>
         </div>
       </div>
 
       <div className="report-conclusion">
-        <div className="conclusion-badge success">
-          ✅ Vidéo sûre pour diffusion
+        <div className={`conclusion-badge ${isSafe ? 'success' : 'warning'}`}>
+          {isSafe ? '✅ Vidéo sûre pour diffusion' : '⚠️ ATTENTION: Risques photosensibles détectés'}
         </div>
         <p className="conclusion-text">
-          Cette vidéo ne présente aucun risque photosensible selon les normes internationales.
+          {isSafe 
+            ? 'Cette vidéo est conforme aux directives WCAG 2.0 (Web Content Accessibility Guidelines). Elle ne contient pas plus de 3 flashs généraux par seconde et ne présente aucun risque identifié pour les personnes photosensibles.'
+            : `⚠️ Cette vidéo N'EST PAS CONFORME aux directives WCAG 2.0. Elle contient jusqu'à ${maxFlashesPerSecond} flashs par seconde, dépassant le seuil de sécurité de 3 flashs/seconde. Cette vidéo peut provoquer des crises chez les personnes atteintes d'épilepsie photosensible. Modifications recommandées avant diffusion.`}
         </p>
       </div>
     </div>

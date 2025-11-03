@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import AnalysisReport from './AnalysisReport';
+import VideoAnalyzer from './VideoAnalyzer';
 
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -7,6 +8,8 @@ function App() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStatus, setProcessingStatus] = useState('');
   const [showReport, setShowReport] = useState(false);
+  const [analysisResults, setAnalysisResults] = useState(null);
+  const analyzerRef = useRef(new VideoAnalyzer());
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -41,14 +44,25 @@ function App() {
 
   const handleProcessing = async () => {
     setIsProcessing(true);
-    setProcessingStatus('🔄 Analyse en cours...');
     setShowReport(false);
+    setAnalysisResults(null);
     
-    setTimeout(() => {
+    try {
+      const analyzer = analyzerRef.current;
+      
+      const results = await analyzer.analyzeVideo(selectedFile, (status) => {
+        setProcessingStatus(status);
+      });
+      
+      setAnalysisResults(results);
       setProcessingStatus('✅ Analyse terminée !');
-      setIsProcessing(false);
       setShowReport(true);
-    }, 2000);
+    } catch (error) {
+      console.error('Erreur lors de l\'analyse:', error);
+      setProcessingStatus('❌ Erreur lors de l\'analyse: ' + error.message);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const formatFileSize = (bytes) => {
@@ -84,12 +98,12 @@ function App() {
               <div className="upload-icon">📁</div>
               <h3>Télécharger votre fichier vidéo</h3>
               <p className="upload-description">
-                Glissez-déposez votre fichier vidéo ou audio ici, ou cliquez sur le bouton ci-dessous
+                Glissez-déposez votre fichier vidéo ici, ou cliquez sur le bouton ci-dessous
               </p>
               <input
                 type="file"
                 id="file-input"
-                accept="video/*,audio/*"
+                accept="video/*"
                 onChange={handleFileChange}
                 style={{ display: 'none' }}
               />
@@ -97,7 +111,7 @@ function App() {
                 Choisir un fichier
               </label>
               <p className="upload-formats">
-                Formats supportés : MP4, AVI, MOV, MP3, WAV, et plus
+                Formats vidéo supportés : MP4, AVI, MOV, WebM
               </p>
             </>
           ) : (
@@ -139,9 +153,9 @@ function App() {
         </div>
       </section>
 
-      {showReport && selectedFile && (
+      {showReport && selectedFile && analysisResults && (
         <section className="report-section-container">
-          <AnalysisReport fileName={selectedFile.name} />
+          <AnalysisReport fileName={selectedFile.name} analysisData={analysisResults} />
         </section>
       )}
 

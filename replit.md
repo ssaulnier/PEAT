@@ -12,13 +12,31 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
   - react, react-dom: UI framework
 
 ## Recent Changes
+- **2024-11-03**: WCAG 2.0 compliant flash detection implementation
+  - Fixed FFmpeg initialization with toBlobURL for proper worker loading
+  - Implemented WCAG 2.0 compliant flash detection (relative luminance change >10% in 0.5s)
+  - Added sliding 1-second window analysis to catch boundary-crossing violations
+  - Comprehensive error handling with user-friendly messages
+  - Video-only upload restriction (audio files rejected with clear message)
+  - Validation guards for empty frames, invalid duration, corrupted files
+  - Dangerous interval detection with precise timestamps
+  - Conformity badges and messages based on WCAG 2.0 standards
+
+- **2024-11-03**: Real video analysis with FFmpeg integration
+  - Created VideoAnalyzer.js module for real video processing
+  - Integrated @ffmpeg/ffmpeg to extract frames from uploaded videos
+  - Implemented luminance calculation for each frame (using standard formula: 0.299R + 0.587G + 0.114B)
+  - Flash rate calculation with dangerous zone identification (>3 flashs/sec)
+  - Dynamic report updates based on actual video analysis results
+  - Warning indicators for videos exceeding safety thresholds
+  - Processing status updates during analysis (FFmpeg loading, frame extraction, analysis)
+
 - **2024-11-03**: Detailed analysis report with luminance graph
   - Created comprehensive analysis report component
   - Integrated Recharts for luminance evolution graph (similar to reference design)
   - Added statistics cards (avg, max, min luminance, duration)
   - Implemented risk detection section with visual indicators
-  - Added conclusion badge with safety status
-  - Simulated luminance data generation with realistic variations
+  - Added conclusion badge with safety status (green for safe, orange for warnings)
   - Responsive design for report layout
 
 - **2024-11-03**: French translation and processing functionality
@@ -65,13 +83,15 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
 ```
 /
 ├── src/
-│   ├── App.jsx         # Main application component
-│   ├── main.jsx        # React entry point
-│   └── index.css       # Global styles
-├── index.html          # HTML template
-├── package.json        # Dependencies and scripts
-├── vite.config.js      # Vite configuration
-└── .gitignore          # Git ignore rules
+│   ├── App.jsx              # Main application component
+│   ├── AnalysisReport.jsx   # Analysis report with charts
+│   ├── VideoAnalyzer.js     # FFmpeg video analysis module
+│   ├── main.jsx             # React entry point
+│   └── index.css            # Global styles
+├── index.html               # HTML template
+├── package.json             # Dependencies and scripts
+├── vite.config.js           # Vite configuration
+└── .gitignore               # Git ignore rules
 ```
 
 ## Development
