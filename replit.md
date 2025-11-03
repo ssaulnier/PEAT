@@ -12,11 +12,15 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
   - react, react-dom: UI framework
 
 ## Recent Changes
-- **2024-11-03**: WCAG 2.1 complete compliance implementation
+- **2024-11-03**: WCAG 2.1 complete compliance - ARCHITECT APPROVED ✅
+  - ✅ **Dual Transition Emission System**: Separate transitions for increase/decrease directions when both areas ≥341×256px
+    - Handles equal-area toggles (e.g., left brightens + right darkens simultaneously)
+    - No false negatives for split-frame flashes or asymmetric luminance changes
+    - Area-weighted direction calculation prevents small remainder tiles from dominating
   - ✅ **General Flash Detection**: Relative luminance change ≥10% with dark image threshold <0.80
-  - ✅ **Red Flash Detection**: Saturated red color flash detection (dangerous even with low luminance change)
-  - ✅ **Spatial Zone Analysis**: 341×256 pixel zones for accurate flash area measurement (WCAG 2.1 requirement)
-  - ✅ **Static Pattern Detection**: High-contrast pattern identification to prevent seizures from static images
+  - ✅ **Red Flash Detection**: Saturated red color flash detection (25% saturated-red pixel area threshold)
+  - ✅ **Spatial Zone Analysis**: All zones analyzed, per-direction area aggregation ≥341×256 pixels (WCAG 2.1 + PMC article)
+  - ✅ **Static Pattern Detection**: Full-frame sampling (step=4) with temporal persistence ≥0.5 seconds
   - Enhanced UI to display separate counts for general flashes vs red flashes
   - Detailed interval reporting showing both flash types in dangerous zones
   - Compliance messaging updated to reflect WCAG 2.1 standards (not 2.0)
