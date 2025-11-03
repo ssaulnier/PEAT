@@ -12,6 +12,15 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
   - react, react-dom: UI framework
 
 ## Recent Changes
+- **2024-11-03**: Design improvements and documentation
+  - Transformed UI with modern purple gradient theme
+  - Added hero section with glassmorphism badges
+  - Implemented feature cards with hover animations
+  - Created comprehensive GitHub README
+  - Enhanced .gitignore with Replit-specific files
+  - Responsive design for all screen sizes
+  - Smooth fadeInUp animations throughout
+
 - **2024-11-03**: Bug fixes and performance improvements
   - Fixed 2 security vulnerabilities (esbuild/Vite)
   - Upgraded Vite from 5.2.0 to 6.4.1
