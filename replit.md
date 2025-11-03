@@ -12,6 +12,14 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
   - react, react-dom: UI framework
 
 ## Recent Changes
+- **2024-11-03**: File upload functionality added
+  - Interactive upload area with drag-and-drop support
+  - "Choose File" button for video/audio uploads
+  - File information display (name, size, type)
+  - Animated upload zone with floating icon
+  - Support for all video and audio formats
+  - Visual feedback when file is selected
+
 - **2024-11-03**: Design improvements and documentation
   - Transformed UI with modern purple gradient theme
   - Added hero section with glassmorphism badges

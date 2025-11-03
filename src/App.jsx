@@ -1,4 +1,42 @@
+import { useState } from 'react';
+
 function App() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const handleDrop = (event) => {
+    event.preventDefault();
+    setIsDragging(false);
+    const file = event.dataTransfer.files[0];
+    if (file) {
+      setSelectedFile(file);
+    }
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+  };
+
   return (
     <div className="app-container">
       <header className="hero-section">
@@ -16,6 +54,58 @@ function App() {
           </div>
         </div>
       </header>
+
+      <section className="upload-section">
+        <div
+          className={`upload-area ${isDragging ? 'dragging' : ''}`}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+        >
+          {!selectedFile ? (
+            <>
+              <div className="upload-icon">📁</div>
+              <h3>Upload Your Media File</h3>
+              <p className="upload-description">
+                Drag and drop your video or audio file here, or click the button below
+              </p>
+              <input
+                type="file"
+                id="file-input"
+                accept="video/*,audio/*"
+                onChange={handleFileChange}
+                style={{ display: 'none' }}
+              />
+              <label htmlFor="file-input" className="upload-button">
+                Choose File
+              </label>
+              <p className="upload-formats">
+                Supported formats: MP4, AVI, MOV, MP3, WAV, and more
+              </p>
+            </>
+          ) : (
+            <div className="file-info">
+              <div className="file-icon">
+                {selectedFile.type.startsWith('video') ? '🎥' : '🎵'}
+              </div>
+              <h3 className="file-name">{selectedFile.name}</h3>
+              <div className="file-details">
+                <span className="file-size">{formatFileSize(selectedFile.size)}</span>
+                <span className="file-type">{selectedFile.type || 'Unknown type'}</span>
+              </div>
+              <button
+                className="change-file-button"
+                onClick={() => setSelectedFile(null)}
+              >
+                Change File
+              </button>
+              <button className="process-button">
+                Start Processing
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
 
       <section className="features-section">
         <h2 className="section-title">Powerful Features</h2>
