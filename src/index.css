@@ -162,6 +162,21 @@ button {
   animation: bounceIn 0.5s ease-out;
 }
 
+.processing-status {
+  margin: 1.5rem 0;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+
+.processing-status p {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
 .file-name {
   font-size: 1.5rem;
   color: #333;
@@ -203,9 +218,14 @@ button {
   color: #666;
 }
 
-.change-file-button:hover {
+.change-file-button:hover:not(:disabled) {
   background: #e0e0e0;
   transform: translateY(-2px);
+}
+
+.change-file-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .process-button {
@@ -214,9 +234,14 @@ button {
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
 }
 
-.process-button:hover {
+.process-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.process-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 @keyframes float {

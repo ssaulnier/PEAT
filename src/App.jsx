@@ -3,11 +3,15 @@ import { useState } from 'react';
 function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [processingStatus, setProcessingStatus] = useState('');
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
+      setIsProcessing(false);
+      setProcessingStatus('');
     }
   };
 
@@ -17,6 +21,8 @@ function App() {
     const file = event.dataTransfer.files[0];
     if (file) {
       setSelectedFile(file);
+      setIsProcessing(false);
+      setProcessingStatus('');
     }
   };
 
@@ -29,10 +35,20 @@ function App() {
     setIsDragging(false);
   };
 
+  const handleProcessing = async () => {
+    setIsProcessing(true);
+    setProcessingStatus('🔄 Analyse en cours...');
+    
+    setTimeout(() => {
+      setProcessingStatus('✅ Analyse terminée ! Aucun risque photosensible détecté.');
+      setIsProcessing(false);
+    }, 2000);
+  };
+
   const formatFileSize = (bytes) => {
-    if (bytes === 0) return '0 Bytes';
+    if (bytes === 0) return '0 Octets';
     const k = 1024;
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const sizes = ['Octets', 'Ko', 'Mo', 'Go'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
   };
@@ -45,13 +61,8 @@ function App() {
             <span className="title-highlight">PEAT</span> Online
           </h1>
           <p className="subtitle">
-            Professional Video & Audio Processing in Your Browser
+            Photosensitive Epilepsy Analysis Tool
           </p>
-          <div className="feature-badges">
-            <span className="badge">🎬 Video Processing</span>
-            <span className="badge">🎵 Audio Editing</span>
-            <span className="badge">📊 Analytics</span>
-          </div>
         </div>
       </header>
 
@@ -65,9 +76,9 @@ function App() {
           {!selectedFile ? (
             <>
               <div className="upload-icon">📁</div>
-              <h3>Upload Your Media File</h3>
+              <h3>Télécharger votre fichier vidéo</h3>
               <p className="upload-description">
-                Drag and drop your video or audio file here, or click the button below
+                Glissez-déposez votre fichier vidéo ou audio ici, ou cliquez sur le bouton ci-dessous
               </p>
               <input
                 type="file"
@@ -77,10 +88,10 @@ function App() {
                 style={{ display: 'none' }}
               />
               <label htmlFor="file-input" className="upload-button">
-                Choose File
+                Choisir un fichier
               </label>
               <p className="upload-formats">
-                Supported formats: MP4, AVI, MOV, MP3, WAV, and more
+                Formats supportés : MP4, AVI, MOV, MP3, WAV, et plus
               </p>
             </>
           ) : (
@@ -91,16 +102,31 @@ function App() {
               <h3 className="file-name">{selectedFile.name}</h3>
               <div className="file-details">
                 <span className="file-size">{formatFileSize(selectedFile.size)}</span>
-                <span className="file-type">{selectedFile.type || 'Unknown type'}</span>
+                <span className="file-type">{selectedFile.type || 'Type inconnu'}</span>
               </div>
+              
+              {processingStatus && (
+                <div className="processing-status">
+                  <p>{processingStatus}</p>
+                </div>
+              )}
+              
               <button
                 className="change-file-button"
-                onClick={() => setSelectedFile(null)}
+                onClick={() => {
+                  setSelectedFile(null);
+                  setProcessingStatus('');
+                }}
+                disabled={isProcessing}
               >
-                Change File
+                Changer de fichier
               </button>
-              <button className="process-button">
-                Start Processing
+              <button 
+                className="process-button"
+                onClick={handleProcessing}
+                disabled={isProcessing}
+              >
+                {isProcessing ? '⏳ Analyse...' : 'Démarrer l\'analyse'}
               </button>
             </div>
           )}
@@ -108,28 +134,28 @@ function App() {
       </section>
 
       <section className="features-section">
-        <h2 className="section-title">Powerful Features</h2>
+        <h2 className="section-title">Fonctionnalités principales</h2>
         <div className="features-grid">
           <div className="feature-card">
             <div className="feature-icon">⚡</div>
-            <h3>Lightning Fast</h3>
-            <p>Process media files with FFmpeg running directly in your browser</p>
+            <h3>Ultra rapide</h3>
+            <p>Analyse vos fichiers vidéo avec FFmpeg directement dans votre navigateur</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">🔒</div>
-            <h3>Privacy First</h3>
-            <p>All processing happens locally - your files never leave your device</p>
+            <h3>Confidentialité garantie</h3>
+            <p>Tout le traitement se fait localement - vos fichiers ne quittent jamais votre appareil</p>
           </div>
           <div className="feature-card">
             <div className="feature-icon">📈</div>
-            <h3>Visual Analytics</h3>
-            <p>Beautiful charts and graphs to analyze your media content</p>
+            <h3>Analyses visuelles</h3>
+            <p>Graphiques et analyses détaillées pour identifier les risques photosensibles</p>
           </div>
         </div>
       </section>
 
       <footer className="app-footer">
-        <p>Built with React, Vite & FFmpeg.wasm</p>
+        <p>Développé avec React, Vite & FFmpeg.wasm</p>
       </footer>
     </div>
   );

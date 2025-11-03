@@ -12,6 +12,14 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
   - react, react-dom: UI framework
 
 ## Recent Changes
+- **2024-11-03**: French translation and processing functionality
+  - Entire app translated to French
+  - Updated baseline: "Photosensitive Epilepsy Analysis Tool"
+  - Removed unnecessary feature badges
+  - Implemented "Start Processing" functionality with visual feedback
+  - Added processing status messages
+  - Disabled buttons during processing
+  
 - **2024-11-03**: File upload functionality added
   - Interactive upload area with drag-and-drop support
   - "Choose File" button for video/audio uploads

@@ -1,18 +1,18 @@
 # 🎬 PEAT Online
 
-> Professional Video & Audio Processing Application powered by FFmpeg in your browser
+> Photosensitive Epilepsy Analysis Tool - Outil d'analyse d'épilepsie photosensible
 
 [![Built with React](https://img.shields.io/badge/React-18.3-61dafb?style=flat&logo=react)](https://reactjs.org/)
 [![Powered by Vite](https://img.shields.io/badge/Vite-6.4-646cff?style=flat&logo=vite)](https://vitejs.dev/)
 [![FFmpeg.wasm](https://img.shields.io/badge/FFmpeg-wasm-green?style=flat)](https://ffmpegwasm.netlify.app/)
 
-## ✨ Features
+## ✨ Fonctionnalités
 
-- 🎥 **Video Processing** - Handle video files with browser-based FFmpeg
-- 🎵 **Audio Editing** - Process and manipulate audio tracks
-- 📊 **Visual Analytics** - Beautiful data visualization with Recharts
-- 🔒 **Privacy First** - All processing happens locally in your browser
-- ⚡ **Lightning Fast** - Powered by WebAssembly for optimal performance
+- 🎥 **Analyse vidéo** - Détection des risques photosensibles dans les vidéos
+- 📊 **Analyses visuelles** - Graphiques et analyses détaillées
+- 🔒 **Confidentialité garantie** - Tout le traitement se fait localement dans votre navigateur
+- ⚡ **Ultra rapide** - Propulsé par WebAssembly pour des performances optimales
+- 🌍 **Interface française** - Application entièrement en français
 
 ## 🚀 Quick Start
 
