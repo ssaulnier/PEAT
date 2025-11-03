@@ -12,25 +12,27 @@ class VideoAnalyzer {
     
     try {
       onProgress?.('Chargement de FFmpeg...');
-      const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd';
+      const baseURL = 'https://unpkg.com/@ffmpeg/core@0.12.6/dist/esm';
       
-      const [coreURL, wasmURL, workerURL] = await Promise.all([
-        toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript'),
-        toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm'),
-        toBlobURL(`${baseURL}/ffmpeg-core.worker.js`, 'text/javascript')
-      ]);
+      onProgress?.('Téléchargement des fichiers FFmpeg (core, wasm)...');
+      
+      const coreURL = await toBlobURL(`${baseURL}/ffmpeg-core.js`, 'text/javascript');
+      const wasmURL = await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, 'application/wasm');
+      
+      onProgress?.('Initialisation de FFmpeg...');
       
       await this.ffmpeg.load({
         coreURL,
-        wasmURL,
-        workerURL
+        wasmURL
       });
       
       this.loaded = true;
-      onProgress?.('FFmpeg chargé avec succès');
+      onProgress?.('✅ FFmpeg chargé avec succès');
     } catch (error) {
-      console.error('Erreur lors du chargement de FFmpeg:', error);
-      throw new Error('Impossible de charger FFmpeg. Assurez-vous d\'avoir une connexion internet stable.');
+      console.error('Erreur détaillée lors du chargement de FFmpeg:', error);
+      console.error('Message:', error.message);
+      console.error('Stack:', error.stack);
+      throw new Error(`Impossible de charger FFmpeg: ${error.message || 'Vérifiez votre connexion internet et réessayez.'}`);
     }
   }
 

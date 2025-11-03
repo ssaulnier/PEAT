@@ -102,3 +102,7 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
 ## Configuration Notes
 - Vite is configured to bind to 0.0.0.0:5000 for Replit proxy compatibility
 - HMR (Hot Module Replacement) configured for WSS protocol
+- CORS headers configured for FFmpeg.wasm (SharedArrayBuffer support):
+  - Cross-Origin-Opener-Policy: same-origin
+  - Cross-Origin-Embedder-Policy: require-corp
+- FFmpeg.wasm uses single-threaded ESM version for better stability
