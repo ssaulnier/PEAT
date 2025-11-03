@@ -12,6 +12,15 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
   - react, react-dom: UI framework
 
 ## Recent Changes
+- **2024-11-03**: Bug fixes and performance improvements
+  - Fixed 2 security vulnerabilities (esbuild/Vite)
+  - Upgraded Vite from 5.2.0 to 6.4.1
+  - Updated all dependencies to latest compatible versions
+  - Removed unused React import (modern JSX transform)
+  - Added React.StrictMode for better development warnings
+  - Optimized imports with named imports pattern
+  - Production build verified and working
+
 - **2024-11-03**: Initial project setup in Replit environment
   - Created missing App.jsx component
   - Configured Vite for Replit proxy compatibility (port 5000, host 0.0.0.0)
