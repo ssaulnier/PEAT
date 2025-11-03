@@ -3,25 +3,50 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package-lock.json
-yarn.lock
+pnpm-debug.log*
 
 # Build
 dist/
+dist-ssr/
 build/
+*.local
 
 # Vite
 .vite/
 
-# IDE
-.vscode/
+# Editor
+.vscode/*
+!.vscode/extensions.json
 .idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # OS
 .DS_Store
 Thumbs.db
+*.log
 
 # Environment
 .env
 .env.local
 .env.*.local
+.env.production
+
+# Replit
+.replit
+.config/
+.upm/
+.cache/
+replit.nix
+
+# Testing
+coverage/
+*.test.js.snap
+
+# Misc
+*.bak
+*.tmp
+.temp/
