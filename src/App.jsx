@@ -181,7 +181,26 @@ function App() {
       </section>
 
       <footer className="app-footer">
-        <p>Développé avec React, Vite & FFmpeg.wasm</p>
+        <div className="footer-credits">
+          <p>Sources et références :</p>
+          <div className="footer-links">
+            <a 
+              href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11872230/#S35" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              PMC Article - Flash and Pattern Detection
+            </a>
+            <span className="link-separator">•</span>
+            <a 
+              href="https://trace.umd.edu/peat/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              PEAT - Photosensitive Epilepsy Analysis Tool
+            </a>
+          </div>
+        </div>
       </footer>
     </div>
   );

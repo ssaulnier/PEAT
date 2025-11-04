@@ -272,7 +272,7 @@ button {
 
 .app-footer {
   background: #FFFFFF;
-  padding: 16px;
+  padding: 24px 16px;
   text-align: center;
   color: #6B7280;
   border-top: 1px solid #E5E7EB;
@@ -281,6 +281,55 @@ button {
 
 .app-footer p {
   font-size: 0.875rem;
+  margin-bottom: 8px;
+}
+
+.footer-credits {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.footer-credits p {
+  margin-bottom: 8px;
+  font-size: 0.8125rem;
+  color: #9CA3AF;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-links a {
+  color: #0077C8;
+  text-decoration: none;
+  font-size: 0.8125rem;
+  transition: all 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: #005fa3;
+  text-decoration: underline;
+}
+
+.link-separator {
+  color: #D1D5DB;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  .footer-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .link-separator {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
