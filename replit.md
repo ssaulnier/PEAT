@@ -12,6 +12,16 @@ PEAT Online is a React-based web application for video/audio processing, utilizi
   - react, react-dom: UI framework
 
 ## Recent Changes
+- **2024-11-04**: Design refonte sobre et professionnel
+  - Palette claire : #FFFFFF / #F5F6F8 / #0077C8
+  - Typographie Inter (Google Fonts)
+  - Coins arrondis 8px uniformes
+  - Espacement respirant : 8px, 12px, 16px, 24px
+  - Suppression des animations flottantes et gradients
+  - Interface minimaliste et épurée
+  - Bordures subtiles (#E5E7EB)
+  - Hover effects discrets
+
 - **2024-11-03**: WCAG 2.1 complete compliance - ARCHITECT APPROVED ✅
   - ✅ **Dual Transition Emission System**: Separate transitions for increase/decrease directions when both areas ≥341×256px
     - Handles equal-area toggles (e.g., left brightens + right darkens simultaneously)
